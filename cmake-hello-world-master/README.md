@@ -1,3 +1,8 @@
+
+
+This is an idea of making a C++ minimal exemple,
+I have not figured out all the details but still it can be a good base, so here it is
+
 This is an extremely simple example C++ application which uses CMake. 
 It will build and install an application called CMakeHelloWorld which simply outputs "Hello, world!" to stdout.  
 
@@ -24,3 +29,10 @@ Removing the application is straight-forward.  Simply delete the binary 'CMakeHe
 
 ***Caution***
 I am a complete C++ noob.  I've created this project as part of an effort to kickstart my C++ recovery as I have recently been placed on a team which is developing an embedded application.  There may be any number of things wrong with this example.  If you see something you know to be implemented incorrectly please contact me via github and I will do my best to correct it.  Better, fork the project, fix it and issue a pull request.
+
+
+
+## Install Requierment
+conan
+buf 
+gRPC

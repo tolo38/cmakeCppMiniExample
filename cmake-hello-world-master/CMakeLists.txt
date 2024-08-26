@@ -17,7 +17,14 @@ conan_cmake_configure(
     REQUIRES
 
     grpc/1.39.1
+    protobuf/3.20.0
+
+    zlib/1.2.11
 GENERATORS cmake_find_package
+    KEEP_RPATHS
+    IMPORTS "bin, *.dll -> ${CMAKE_BINARY_DIR}"
+    IMPORTS "lib, *.so* -> ${CMAKE_BINARY_DIR}"
+
 )
 
 conan_cmake_autodetect(settings)
@@ -29,10 +36,12 @@ conan_cmake_install(PATH_OR_REFERENCE .
 find_package(gRPC REQUIRED)
 
 #include the subdirectory containing our libs
-add_subdirectory (Hello)
-include_directories(Hello)
+add_subdirectory (Hello gen)
+include_directories(Hello gen)
 #indicate the entry point for the executable
-add_executable (CMakeHelloWorld Hello HelloWorld.cpp)
+add_executable (CMakeHelloWorld Hello HelloWorld.cpp 
+    ${PROTO_SRCS}
+    ${PROTO_HDRS})
 
 #find_package(PkgConfig REQUIRED)
 #pkg_search_module(GRPC REQUIRED grpc)
@@ -59,19 +68,17 @@ IMPORT_DIRS proto
 
 add_library(Messages STATIC ${ProtoSources} ${ProtoHeaders} ${ServiceSources} ${ServiceHeaders})
 
+# Indicate which libraries to include during the link process.
 target_link_libraries(CMakeHelloWorld
 PUBLIC
+${PROTOBUF_LIBRARY}
 protobuf::libprotobuf
 gRPC::grpc
 gRPC::grpc++
 Hello
 )
 
-# Indicate which libraries to include during the link process.
-#target_link_libraries (CMakeHelloWorld Hello)
-
 # install targets
 install (TARGETS CMakeHelloWorld
 DESTINATION "${CMAKE_INSTALL_BINDIR}"
 )
-
